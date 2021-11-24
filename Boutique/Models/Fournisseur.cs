@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace Boutique.Models
 {
-   public class Fournisseur:Personne
+   public class Fournisseur
     {
         public int FournisseurId { get; set; }
-        public IList<FournisseurCommande> FournisseursCommandes { get; set; }
-        public IList<ProductFournisseur> ProductsFournisseurs { get; set; }
+        public string Nom { get; set; }
+        public string Prenom { get; set; }
+        public string Mail { get; set; }
+        public string Addresse { get; set; }
+        public int Telephone { get; set; }
+        public int Age { get; set; }
+
+
 
 
     }

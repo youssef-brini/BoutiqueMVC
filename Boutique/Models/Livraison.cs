@@ -10,7 +10,8 @@ namespace Boutique.Models
         public string adresseLivraison { get; set; }
 
         public Employe Employe { get; set; }
-        public IList<ProductLivraison> ProductsLivraisons { get; set; }
+        
+        public Vente Vente { get; set; }
 
     }
 }

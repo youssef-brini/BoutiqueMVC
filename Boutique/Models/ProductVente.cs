@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 
 namespace Boutique.Models
 {
-    public class ProductLivraison
+    public class ProductVente
     {
-        public int ProductLivraisonId { get; set; }
+        public int ProductVenteId { get; set; }
         public int ProductId { get; set; }
-        public int LivraisonId { get; set; }
-        public Livraison Livraison { get; set; }
+        public int VenteId { get; set; }
         public Product Product { get; set; }
+        public Vente Vente { get; set; }
+        public int QuantiteDesi { get; set; }
     }
 }

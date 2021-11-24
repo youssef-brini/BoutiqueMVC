@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Boutique.Migrations
 {
     [DbContext(typeof(BoutiqueDbContext))]
-    [Migration("20211123065802_Migration8")]
-    partial class Migration8
+    [Migration("20211124071825_migration1")]
+    partial class migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,9 @@ namespace Boutique.Migrations
                     b.Property<int?>("EmployePersonneId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FournisseurId")
+                        .HasColumnType("int");
+
                     b.Property<string>("dateCommande")
                         .HasColumnType("nvarchar(max)");
 
@@ -41,7 +44,64 @@ namespace Boutique.Migrations
 
                     b.HasIndex("EmployePersonneId");
 
+                    b.HasIndex("FournisseurId");
+
                     b.ToTable("Commandes");
+                });
+
+            modelBuilder.Entity("Boutique.Models.CommandeProduct", b =>
+                {
+                    b.Property<int>("CommandeProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommandeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantite")
+                        .HasColumnType("int");
+
+                    b.HasKey("CommandeProductId");
+
+                    b.HasIndex("CommandeId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CommandeProduct");
+                });
+
+            modelBuilder.Entity("Boutique.Models.Fournisseur", b =>
+                {
+                    b.Property<int>("FournisseurId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Addresse")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Mail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Prenom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Telephone")
+                        .HasColumnType("int");
+
+                    b.HasKey("FournisseurId");
+
+                    b.ToTable("Fournisseurs");
                 });
 
             modelBuilder.Entity("Boutique.Models.Livraison", b =>
@@ -54,12 +114,17 @@ namespace Boutique.Migrations
                     b.Property<int?>("EmployePersonneId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("VenteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("adresseLivraison")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LivraisonId");
 
                     b.HasIndex("EmployePersonneId");
+
+                    b.HasIndex("VenteId");
 
                     b.ToTable("Livraisons");
                 });
@@ -107,13 +172,10 @@ namespace Boutique.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClientPersonneId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CommandeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductImg")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("ProductPrice")
@@ -122,57 +184,37 @@ namespace Boutique.Migrations
                     b.Property<string>("ProductType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StockId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VenteId")
+                    b.Property<int>("QuantiteDispo")
                         .HasColumnType("int");
 
                     b.HasKey("ProductId");
 
-                    b.HasIndex("ClientPersonneId");
-
-                    b.HasIndex("CommandeId");
-
-                    b.HasIndex("StockId");
-
-                    b.HasIndex("VenteId");
-
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Boutique.Models.ProductFournisseur", b =>
+            modelBuilder.Entity("Boutique.Models.ProductVente", b =>
                 {
-                    b.Property<int>("ProductFournisseurId")
+                    b.Property<int>("ProductVenteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FournisseurId")
-                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductFournisseurId");
+                    b.Property<int>("QuantiteDesi")
+                        .HasColumnType("int");
 
-                    b.HasIndex("FournisseurId");
+                    b.Property<int>("VenteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductVenteId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductFournisseur");
-                });
+                    b.HasIndex("VenteId");
 
-            modelBuilder.Entity("Boutique.Models.Stock", b =>
-                {
-                    b.Property<int>("StockId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("StockId");
-
-                    b.ToTable("Stocks");
+                    b.ToTable("ProductVente");
                 });
 
             modelBuilder.Entity("Boutique.Models.Vente", b =>
@@ -198,36 +240,6 @@ namespace Boutique.Migrations
                     b.ToTable("Ventes");
                 });
 
-            modelBuilder.Entity("CommandeFournisseur", b =>
-                {
-                    b.Property<int>("CommandesCommandeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FournisseursPersonneId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CommandesCommandeId", "FournisseursPersonneId");
-
-                    b.HasIndex("FournisseursPersonneId");
-
-                    b.ToTable("CommandeFournisseur");
-                });
-
-            modelBuilder.Entity("LivraisonProduct", b =>
-                {
-                    b.Property<int>("LivraisonsLivraisonId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LivraisonsLivraisonId", "ProductsProductId");
-
-                    b.HasIndex("ProductsProductId");
-
-                    b.ToTable("LivraisonProduct");
-                });
-
             modelBuilder.Entity("Boutique.Models.Client", b =>
                 {
                     b.HasBaseType("Boutique.Models.Personne");
@@ -245,188 +257,101 @@ namespace Boutique.Migrations
                     b.Property<int>("EmployeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StockId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("StockId")
-                        .IsUnique()
-                        .HasFilter("[StockId] IS NOT NULL");
-
                     b.HasDiscriminator().HasValue("Employe");
-                });
-
-            modelBuilder.Entity("Boutique.Models.Fournisseur", b =>
-                {
-                    b.HasBaseType("Boutique.Models.Personne");
-
-                    b.Property<int>("FournisseurId")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("Fournisseur");
                 });
 
             modelBuilder.Entity("Boutique.Models.Commande", b =>
                 {
                     b.HasOne("Boutique.Models.Employe", "Employe")
-                        .WithMany("Commandes")
-                        .HasForeignKey("EmployePersonneId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("EmployePersonneId");
+
+                    b.HasOne("Boutique.Models.Fournisseur", "Fournisseur")
+                        .WithMany()
+                        .HasForeignKey("FournisseurId");
 
                     b.Navigation("Employe");
+
+                    b.Navigation("Fournisseur");
+                });
+
+            modelBuilder.Entity("Boutique.Models.CommandeProduct", b =>
+                {
+                    b.HasOne("Boutique.Models.Commande", "Commande")
+                        .WithMany("CommandeProducts")
+                        .HasForeignKey("CommandeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Boutique.Models.Product", "Product")
+                        .WithMany("CommandeProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Commande");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Boutique.Models.Livraison", b =>
                 {
                     b.HasOne("Boutique.Models.Employe", "Employe")
-                        .WithMany("Livraisons")
-                        .HasForeignKey("EmployePersonneId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Employe");
-                });
-
-            modelBuilder.Entity("Boutique.Models.Product", b =>
-                {
-                    b.HasOne("Boutique.Models.Client", "Client")
-                        .WithMany("Products")
-                        .HasForeignKey("ClientPersonneId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("Boutique.Models.Commande", "Commande")
-                        .WithMany("Products")
-                        .HasForeignKey("CommandeId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("Boutique.Models.Stock", "Stock")
-                        .WithMany("Products")
-                        .HasForeignKey("StockId");
+                        .WithMany()
+                        .HasForeignKey("EmployePersonneId");
 
                     b.HasOne("Boutique.Models.Vente", "Vente")
-                        .WithMany("Products")
-                        .HasForeignKey("VenteId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("VenteId");
 
-                    b.Navigation("Client");
-
-                    b.Navigation("Commande");
-
-                    b.Navigation("Stock");
+                    b.Navigation("Employe");
 
                     b.Navigation("Vente");
                 });
 
-            modelBuilder.Entity("Boutique.Models.ProductFournisseur", b =>
+            modelBuilder.Entity("Boutique.Models.ProductVente", b =>
                 {
-                    b.HasOne("Boutique.Models.Fournisseur", "Fournisseur")
-                        .WithMany("ProductsFournisseurs")
-                        .HasForeignKey("FournisseurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Boutique.Models.Product", "Product")
-                        .WithMany("ProductsFournisseurs")
+                        .WithMany("ProductVentes")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Fournisseur");
+                    b.HasOne("Boutique.Models.Vente", "Vente")
+                        .WithMany("ProductVentes")
+                        .HasForeignKey("VenteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
+
+                    b.Navigation("Vente");
                 });
 
             modelBuilder.Entity("Boutique.Models.Vente", b =>
                 {
                     b.HasOne("Boutique.Models.Client", "Client")
-                        .WithMany("Ventes")
-                        .HasForeignKey("ClientPersonneId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("ClientPersonneId");
 
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("CommandeFournisseur", b =>
-                {
-                    b.HasOne("Boutique.Models.Commande", null)
-                        .WithMany()
-                        .HasForeignKey("CommandesCommandeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Boutique.Models.Fournisseur", null)
-                        .WithMany()
-                        .HasForeignKey("FournisseursPersonneId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LivraisonProduct", b =>
-                {
-                    b.HasOne("Boutique.Models.Livraison", null)
-                        .WithMany()
-                        .HasForeignKey("LivraisonsLivraisonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Boutique.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Boutique.Models.Employe", b =>
-                {
-                    b.HasOne("Boutique.Models.Stock", "Stock")
-                        .WithOne("Employe")
-                        .HasForeignKey("Boutique.Models.Employe", "StockId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Stock");
-                });
-
             modelBuilder.Entity("Boutique.Models.Commande", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("CommandeProducts");
                 });
 
             modelBuilder.Entity("Boutique.Models.Product", b =>
                 {
-                    b.Navigation("ProductsFournisseurs");
-                });
+                    b.Navigation("CommandeProducts");
 
-            modelBuilder.Entity("Boutique.Models.Stock", b =>
-                {
-                    b.Navigation("Employe");
-
-                    b.Navigation("Products");
+                    b.Navigation("ProductVentes");
                 });
 
             modelBuilder.Entity("Boutique.Models.Vente", b =>
                 {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Boutique.Models.Client", b =>
-                {
-                    b.Navigation("Products");
-
-                    b.Navigation("Ventes");
-                });
-
-            modelBuilder.Entity("Boutique.Models.Employe", b =>
-                {
-                    b.Navigation("Commandes");
-
-                    b.Navigation("Livraisons");
-                });
-
-            modelBuilder.Entity("Boutique.Models.Fournisseur", b =>
-                {
-                    b.Navigation("ProductsFournisseurs");
+                    b.Navigation("ProductVentes");
                 });
 #pragma warning restore 612, 618
         }

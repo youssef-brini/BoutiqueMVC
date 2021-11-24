@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 
 namespace Boutique.Models
 {
-    public class FournisseurCommande
+    public class CommandeProduct
     {
-        public int FournisseurCommandeId { get; set; }
-        public int FournisseurId { get; set; }
+        public int CommandeProductId { get; set; }
+        public int ProductId { get; set; }
         public int CommandeId { get; set; }
+        public Product Product { get; set; }
         public Commande Commande { get; set; }
-        public Fournisseur Fournisseur { get; set; }
+        public int Quantite { get; set; }
     }
 }

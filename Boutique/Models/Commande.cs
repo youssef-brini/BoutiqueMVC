@@ -9,10 +9,10 @@ namespace Boutique.Models
         public int CommandeId { get; set; }
         public string dateCommande { get; set; }
         public string dateLivraison { get; set; }
-
+        //public int Quantite { get; set; }
         public Employe Employe { get; set; }
-        public IList<Product> Products { get; set; }
-        public IList<FournisseurCommande> FournisseursCommandes { get; set; }
+        public IList<CommandeProduct> CommandeProducts { get; set; }
+        public Fournisseur Fournisseur { get; set; }
 
     }
 }

@@ -10,8 +10,6 @@ namespace Boutique.Models
     {
         public int ClientId { get; set; }
 
-        public IList<Product> Products { get; set; }
-
-        public IList<Vente> Ventes { get; set; }
+        
     }
 }

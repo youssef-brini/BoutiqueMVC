@@ -7,15 +7,15 @@ namespace Boutique.Models
     {
         public int ProductId { get; set; }
         public string Name { get; set; }
+
         public string ProductType { get; set; }
         public float ProductPrice { get; set; }
+        public string ProductImg { get; set; }
+        public int QuantiteDispo { get; set; }
+        public IList<ProductVente> ProductVentes { get; set; }
+        public IList<CommandeProduct> CommandeProducts { get; set; }
 
-        public Stock Stock { get; set; }
-        public IList<ProductLivraison> ProductsLivraisons { get; set; }
-        public IList<ProductFournisseur> ProductsFournisseurs { get; set; }
-        public Commande Commande { get; set; }
-        public Vente Vente { get; set; }
-        public Client Client { get; set; }
+
 
 
     }

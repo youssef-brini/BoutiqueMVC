@@ -24,7 +24,8 @@ namespace Boutique.Models
 
         public Mode  Mode_payment { get; set; }
 
-        public IList<Product> Products { get; set; }
+        public IList<ProductVente> ProductVentes { get; set; }
+        //public int QuantiteDesi { get; set; }
 
 
         public Client Client { get; set; }
