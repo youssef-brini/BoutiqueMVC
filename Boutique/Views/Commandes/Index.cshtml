@@ -1,0 +1,45 @@
+﻿@model List<Commande>
+
+@{
+    ViewData["Title"] = "List of Commandes";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    @*<th>Product </th>*@
+                    <th>Commande Id</th>
+                    <th>Date de Commande</th>
+                    <th>Date de Livraison</th>
+
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.CommandeId)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.dateCommande)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.dateLivraison)
+                    </td>
+                    
+
+
+
+                </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

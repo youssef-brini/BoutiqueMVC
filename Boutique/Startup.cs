@@ -1,4 +1,5 @@
 using Boutique.Data;
+using Boutique.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +28,8 @@ namespace Boutique
         {
             //DbContext Configuration 
             services.AddDbContext<BoutiqueDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BoutiqueContext")));
+            //Servives Configuration
+            services.AddScoped<IProductsService, ProductsService>();
 
             services.AddControllersWithViews();
         }

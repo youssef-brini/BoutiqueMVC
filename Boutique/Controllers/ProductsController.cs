@@ -1,4 +1,6 @@
 ﻿using Boutique.Data;
+using Boutique.Data.Services;
+using Boutique.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,16 +12,32 @@ namespace Boutique.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly BoutiqueDbContext _context;
-        public ProductsController(BoutiqueDbContext context)
+        private readonly IProductsService _service;
+        public ProductsController(IProductsService service)
         {
-            _context = context;
+            _service = service;
 
         }
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            var allProducts = await _context.Products.ToListAsync();
+            var allProducts =  _service.GetAll();
             return View(allProducts);
         }
+        public  IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create([Bind("ProductImg,Name,ProductType,ProductPrice,QuantiteDispo")] Product product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(product);
+            }
+            _service.Add(product);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

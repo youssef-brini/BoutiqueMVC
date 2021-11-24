@@ -18,7 +18,7 @@ namespace Boutique.Controllers
         public async Task<IActionResult> Index()
         {
             var allVentes= await _context.Ventes.ToListAsync();
-            return View();
+            return View(allVentes);
         }
     }
 }
