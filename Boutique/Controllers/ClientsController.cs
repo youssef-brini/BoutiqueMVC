@@ -15,10 +15,11 @@ namespace Boutique.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public async Task <IActionResult> Index()
         {
             var allClients = await _context.Clients.ToListAsync();
-            return View();
+            
+            return View(allClients);
         }
     }
 }

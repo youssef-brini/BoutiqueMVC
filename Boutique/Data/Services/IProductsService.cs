@@ -8,9 +8,9 @@ namespace Boutique.Data.Services
 {
     public interface IProductsService
     {
-        IEnumerable<Product> GetAll();
-        Product GetById(int id);
-        void Add(Product product);
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task<Product> GetByIdAsync(int id);
+        Task AddAsync(Product product);
         Product Update(int id, Product product);
         void Delete(int id);
     }

@@ -18,10 +18,17 @@ namespace Boutique.Controllers
             _service = service;
 
         }
-        public  IActionResult Index()
+        public  async Task<IActionResult> Index()
         {
-            var allProducts =  _service.GetAll();
+            var allProducts =  await _service.GetAllAsync();
             return View(allProducts);
+        }
+        public async Task<IActionResult> Details(int id)
+        {
+            var productDetails = await _service.GetByIdAsync(id);
+                if (productDetails == null)
+                return View("Empty");
+            return View(productDetails);
         }
         public  IActionResult Create()
         {
@@ -29,13 +36,13 @@ namespace Boutique.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("ProductImg,Name,ProductType,ProductPrice,QuantiteDispo")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductImg,Name,ProductType,ProductPrice,QuantiteDispo")] Product product)
         {
             if (!ModelState.IsValid)
             {
                 return View(product);
             }
-            _service.Add(product);
+            await _service.AddAsync(product);
             return RedirectToAction(nameof(Index));
         }
 

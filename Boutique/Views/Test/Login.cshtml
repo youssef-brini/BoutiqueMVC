@@ -1,0 +1,33 @@
+﻿@{ 
+    var returnUrl = ViewData["ReturnUrl"] as string;
+    var error = TempData["Error"] as string;
+}
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <title>Sign in</title>
+</head>
+
+<body>
+    <div class="main">
+        @if (!string.IsNullOrEmpty(error))
+        {
+        <h2 class="alert-danger" style="padding: 20px"> @error</h2>
+        }
+        <p class="sign" align="center">Sign in</p>
+        <form class="form1" action="/login?ReturnUrl=@System.Net.WebUtility.UrlEncode(returnUrl)" method="post">
+            <input class="un " type="text" align="center" name="username" placeholder="Username">
+            <input class="pass" type="password" align="center" name="password" placeholder="Password">
+            <input type="submit" class="submit" align="right" value="Sign in">
+            <p class="forgot" align="center"><a href="#">Forgot Password?</p>
+            </form>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,4 +1,5 @@
 ﻿using Boutique.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,10 @@ namespace Boutique.Data.Services
         {
             _context = context;
         }
-        public void Add(Product product)
+        public async Task AddAsync(Product product)
         {
-            _context.Products.Add(product);
-            _context.SaveChanges();
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
         }
 
         public void Delete(int id)
@@ -24,15 +25,16 @@ namespace Boutique.Data.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Product> GetAll()
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            var results = _context.Products.ToList();
+            var results = await _context.Products.ToListAsync();
             return results;
         }
 
-        public Product GetById(int id)
+        public async Task<Product> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Products.FirstOrDefaultAsync(n => n.ProductId == id);
+            return result;
         }
 
         public Product Update(int id, Product product)
